@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Aurora Expeditions – vânează aurora boreală</title>
+  <meta name="description" content="Expediții de 4-8 nopți în Norvegia, Islanda și Finlanda, cu ghizi locali și prognoză live a aurorei.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2319d3a2'/%3E%3Cpath d='M6 24c5-14 9-14 10-4s5 4 10-12' stroke='%23070b1f' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="glow" id="glow"></div>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="logo" href="#top"><span class="logo-mark"></span>Aurora</a>
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#destinatii">Destinații</a>
+        <a href="#planner">Calculator</a>
+        <a href="#pachete">Pachete</a>
+        <a href="#seara">O seară</a>
+        <a href="#intrebari">Întrebări</a>
+      </nav>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Schimbă tema"></button>
+      <a class="btn sm magnetic" href="#rezervare">Rezervă</a>
+      <button class="burger" id="burger" type="button" aria-label="Meniu" aria-expanded="false"><i></i><i></i><i></i></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <canvas id="sky" aria-hidden="true"></canvas>
+      <div class="wrap hero-grid">
+        <div>
+          <h1 class="split" data-text="Vânează aurora boreală."></h1>
+          <p class="lead">Expediții mici, cu ghizi locali și prognoză live, în locurile unde cerul cu adevărat dansează.</p>
+          <div class="cta-row">
+            <a class="btn magnetic" href="#planner">Calculează-ți călătoria</a>
+            <a class="btn ghost magnetic" href="#destinatii">Vezi destinațiile</a>
+          </div>
+          <div class="countdown" aria-label="Timp până la următoarea plecare">
+            <div><b id="cd-d">00</b><span>zile</span></div>
+            <div><b id="cd-h">00</b><span>ore</span></div>
+            <div><b id="cd-m">00</b><span>min</span></div>
+            <div><b id="cd-s">00</b><span>sec</span></div>
+            <p>până la următoarea plecare, 18 decembrie</p>
+          </div>
+        </div>
+
+        <aside class="kp card-glass" aria-label="Prognoză aurora">
+          <h2>Prognoză live</h2>
+          <svg viewBox="0 0 200 120" class="gauge">
+            <path class="gauge-bg" d="M20 100a80 80 0 0 1 160 0"/>
+            <path class="gauge-val" id="kpArc" d="M20 100a80 80 0 0 1 160 0"/>
+          </svg>
+          <div class="kp-read"><b id="kpVal">0</b><span id="kpLabel">Kp</span></div>
+          <p class="kp-note">Indice Kp simulat, actualizat la câteva secunde.</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Tromsø</span><span>Reykjavík</span><span>Rovaniemi</span><span>Lofoten</span><span>Akureyri</span><span>Inari</span>
+        <span>Tromsø</span><span>Reykjavík</span><span>Rovaniemi</span><span>Lofoten</span><span>Akureyri</span><span>Inari</span>
+      </div>
+    </div>
+
+    <section class="s-a" id="destinatii">
+      <div class="wrap">
+        <h2 data-r="up">Trei țări, același cer.</h2>
+        <div class="tabs" id="tabs" role="tablist"></div>
+        <div class="dest" id="dest" data-r="zoom"></div>
+        <div class="stats" data-rg>
+          <div><b data-count="94">0</b><span>% nopți cu aurora</span></div>
+          <div><b data-count="1200">0</b><span>călători în 2025</span></div>
+          <div><b data-count="12">0</b><span>ghizi locali</span></div>
+          <div><b data-count="48">0</b><span>expediții pe sezon</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-b" id="planner">
+      <div class="wrap planner">
+        <div data-r="left">
+          <h2>Calculează-ți expediția.</h2>
+          <p class="sub">Alege destinația, nopțile și câți veniți. Prețul se schimbă live.</p>
+        </div>
+        <form class="calc card" id="calc" data-r="right" novalidate>
+          <label>Destinație
+            <select id="selDest"></select>
+          </label>
+          <label>Nopți <output id="outNights">6</output>
+            <input type="range" id="rngNights" min="4" max="8" value="6">
+          </label>
+          <label>Călători <output id="outPeople">2</output>
+            <input type="range" id="rngPeople" min="1" max="8" value="2">
+          </label>
+          <div class="switch" id="season" role="group" aria-label="Sezon">
+            <button type="button" class="on" data-m="1.25">Sezon intens</button>
+            <button type="button" data-m="1">Sezon liber</button>
+          </div>
+          <div class="total"><span>Total estimat</span><b id="total">0 €</b></div>
+          <ul class="breakdown" id="breakdown"></ul>
+        </form>
+      </div>
+    </section>
+
+    <section class="s-c" id="pachete">
+      <div class="wrap">
+        <h2 data-r="up">Alege-ți ritmul.</h2>
+        <div class="plans" data-rg>
+          <article class="plan">
+            <h3>Explorer</h3>
+            <p class="price"><b>890 €</b><span>pe persoană, 4 nopți</span></p>
+            <ul><li>Cazare în cabane</li><li>2 ieșiri nocturne</li><li>Prognoză live</li></ul>
+            <a class="btn ghost magnetic" href="#rezervare">Alege</a>
+          </article>
+          <article class="plan hot">
+            <h3>Aurora</h3>
+            <p class="price"><b>1.490 €</b><span>pe persoană, 6 nopți</span></p>
+            <ul><li>Cazare cu sauna</li><li>4 ieșiri nocturne</li><li>Fotograf inclus</li><li>Transfer privat</li></ul>
+            <a class="btn magnetic" href="#rezervare">Alege</a>
+          </article>
+          <article class="plan">
+            <h3>Polar</h3>
+            <p class="price"><b>2.350 €</b><span>pe persoană, 8 nopți</span></p>
+            <ul><li>Iglu de sticlă</li><li>Ieșiri nelimitate</li><li>Safari cu câini husky</li><li>Ghid dedicat</li></ul>
+            <a class="btn ghost magnetic" href="#rezervare">Alege</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-d" id="seara">
+      <div class="wrap">
+        <h2 data-r="up">O seară de vânătoare.</h2>
+        <ol class="timeline" id="timeline">
+          <li data-r="left"><time>18:00</time><h3>Ceai și prognoză</h3><p>Ghidul verifică norii și indicele Kp, apoi alege locul serii.</p></li>
+          <li data-r="right"><time>20:30</time><h3>Pornim spre întuneric</h3><p>Ne depărtăm de lumina orașului, într-un microbuz cald, cu termosuri.</p></li>
+          <li data-r="left"><time>22:00</time><h3>Cerul se aprinde</h3><p>Trepied, cald la picioare și un ghid care te ajută să prinzi cadrul.</p></li>
+          <li data-r="right"><time>01:00</time><h3>Supă fierbinte</h3><p>Ne întoarcem cu poze, povești și poftă de mâncare.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="s-e">
+      <div class="wrap">
+        <h2 data-r="up">Ce spun cei care au plecat.</h2>
+        <div class="slider" id="slider" data-r="zoom">
+          <blockquote class="slide on"><p>Am văzut aurora la 22:10 și am uitat de frig. Ghidul știa exact unde să ne ducă.</p><cite>Ioana, Cluj</cite></blockquote>
+          <blockquote class="slide"><p>Grup mic, cabană caldă și poze pe care nu credeam că le pot face cu telefonul.</p><cite>Andrei, București</cite></blockquote>
+          <blockquote class="slide"><p>Prognoza live ne-a salvat o seară întreagă. Am schimbat locul și a meritat.</p><cite>Maria, Sibiu</cite></blockquote>
+          <div class="dots" id="dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="s-a" id="intrebari">
+      <div class="wrap faq">
+        <h2 data-r="up">Întrebări frecvente.</h2>
+        <details><summary>Când e cel mai bun moment?</summary><p>Între septembrie și martie. Cele mai multe nopți senine sunt în decembrie și februarie.</p></details>
+        <details><summary>Garantați că vedem aurora?</summary><p>Nu putem promite cerul, dar 94% dintre nopțile noastre au avut aurora. Dacă nu vedem nimic, repetăm ieșirea gratuit.</p></details>
+        <details><summary>Ce echipament primesc?</summary><p>Combinezon termic, cizme și mănuși sunt incluse. Tu aduci doar telefonul sau aparatul foto.</p></details>
+      </div>
+    </section>
+
+    <section class="final" id="rezervare">
+      <div class="wrap">
+        <h2 data-r="up">Locurile pentru decembrie se umplu.</h2>
+        <form class="book" id="book" novalidate data-r="zoom">
+          <input id="email" type="email" placeholder="adresa@email.ro" aria-label="Email" autocomplete="email">
+          <button class="btn magnetic" type="submit">Rezervă un loc</button>
+          <p class="hint" id="hint" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span id="year"></span> Aurora Expeditions. Brand fictiv, creat ca exemplu de design.</span>
+      <span>Cerul e la 2 pași.</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
